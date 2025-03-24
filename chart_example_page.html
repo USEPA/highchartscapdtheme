@@ -28,3 +28,203 @@
 <figure class="highcharts-figure">
 <div class="centered" id="stackedAreaTemplate">&nbsp;</div>
 </figure>
+
+
+
+<!-- Javascript starts here. Always wrap in script tag. On Drupal, include this in the javascript box.-->
+<script>
+  //The following Javascript includes all necessary elements from the power sector dev portal style guide
+
+// Function to align first and last labels differently than the rest on the xAxis
+//For Highcharts line charts only
+(function (H) {
+    H.wrap(H.Tick.prototype, 'renderLabel', function (proceed, xy, old, opacity, index) {
+        // Call the original function
+        proceed.call(this, xy, old, opacity, index);
+
+        // Exit if not the xAxis
+        if (!this.axis.isXAxis) {
+            return;
+        }
+
+        // Get the chart instance
+        const chart = this.axis.chart;
+
+        // Check if at least one series is of type 'line'
+        const hasLineSeries = chart.series.some(series => series.type === 'line');
+        if (!hasLineSeries) {
+            return;
+        }
+
+        // Align the first label to the left
+        if (this.isFirst) {
+            this.label.attr({
+                align: 'left',
+                x: xy.x
+            });
+            return;
+        }
+
+        // Align the last label to the right
+        if (this.isLast) {
+            this.label.attr({
+                align: 'right',
+                x: xy.x
+            });
+            return;
+        }
+    });
+})(Highcharts);
+
+
+//Tempalte for line charts
+var $ = jQuery;
+
+
+
+Highcharts.setOptions({
+    style: {
+     fontFamily: 'Source Sans Pro, Source Sans Pro, Clean, sans-serif'
+        },
+    lang: {
+      decimalPoint: '.',
+      thousandsSep: ','
+    }
+});
+
+
+//Set data here
+const currentGenYear = 2023;
+const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.03];
+
+//Define highchart
+var generationChart = Highcharts.chart('netGenerationChartContainer', {
+  credits: {
+    text: "Source: U.S. Energy Information Administration",
+    href: "https://www.eia.gov/energyexplained/electricity/electricity-in-the-us-generation-capacity-and-sales.php",
+  },
+    chart: {
+      animation: false,
+      marginBottom: 50,
+    },
+    title: {
+      text: "Total Electric Power Generation",
+      margin: 30,
+      align: 'left',
+    },
+    plotOptions: {
+      label: {
+        onArea: false
+      },
+      series: {
+        animation: false,
+      }
+    },
+    yAxis: {
+      tickInterval: 0.5,
+      min: 2.5,
+      max: 4.5,
+      title: {
+            text: 'Generation Terrawatt Hours (TWh)',
+            style:{fontWeight: 'bold'},
+            textAlign: 'left',
+            align: 'high',
+            offset: -190,
+            x: -200,
+            rotation: 0,
+            y: -20,
+        },
+      labels: {
+        formatter: 
+        function() {
+          return this.value;
+        }
+      },
+      gridLineDashStyle: 'dash',
+      gridLineColor: '#c9c9c9',
+      minorGridLineWidth: 0,
+      plotLines: [{
+        value: 2.5,
+        width: 1,
+        color: '#2e2e2e',
+        zIndex: 2
+      }],
+    },
+    xAxis: {
+    min: 0.5,
+  //setting the max as 32.5 forces the X axis to end on the last label
+    max: 32.5,
+    categories: powerGenYears,
+//Add one to last tickPositions array item each year
+//33 is for 2023 this year
+tickPositions: [0, 5, 10, 15, 20, 25, 30, 33],
+tickLength: 5,
+tickWidth: 1,
+tickColor: '#2e2e2e',
+tickmarkPlacement: 'on',
+labels: {
+      rotation: 0,
+      step: 1,
+        formatter() {
+//show a data label for every 5 years - add 2025 in 2026
+        if(this.value == 1990 ||
+           this.value == 1995 ||
+           this.value == 2000 ||
+           this.value == 2005 ||
+           this.value == 2010 ||
+           this.value == 2015 ||
+           this.value == 2020 ||
+           this.value == currentGenYear) {
+            return this.value
+        }
+    }
+    }
+    },
+        series: [{
+        type: 'line',
+        color: "#2273BB",
+        lineWidth: 3,
+  name: "Generation (TWh)",
+            data: generationData
+        }],
+    tooltip: {
+      valueSuffix: ''
+    },
+    legend: {
+        align: 'right',
+        verticalAlign: 'middle',
+        layout: 'vertical',
+        itemMarginTop: -100,
+        itemMarginBottom: 8
+    },
+    exporting: {
+      sourceWidth: 800,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function() {
+            window.open('https://www.epa.gov/system/files/documents/2024-01/view-2022-camd-emissions-data.xlsx');
+          },
+          text: 'Download data'
+        }
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ['xls', 'viewFullscreen', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
+        }
+      }
+    },
+    });
+</script>
+
+
+<style>
+#lineChartTemplate {
+min-height: 375px;
+height: 42vw;
+max-height: 550px;
+max-width: 900px;
+}
+</style>
