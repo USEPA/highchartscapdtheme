@@ -2,6 +2,7 @@
 <script src="http://code.jquery.com/jquery-git.js"></script>
 
 <!-- Remove "https://epa.gov/" from these if publishing chart on Drupal -->
+<!-- On Drupal, include this in the javascript box.-->
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/highcharts.js"></script>
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/exporting.js"></script>
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/export-data.js"></script>
@@ -30,6 +31,18 @@
 <figure class="highcharts-figure">
 <div class="centered" id="stackedAreaTemplate">&nbsp;</div>
 </figure>
+
+
+<!-- CSS starts here. Always wrap in style tag. On Drupal, include this at the top of the javascript box.-->
+<style>
+#lineChartTemplate {
+min-height: 375px;
+height: 38vw;
+width: 48vw;
+max-height: 500px;
+max-width: 700px;
+}
+</style>
 
 
 
@@ -220,14 +233,3 @@ labels: {
     },
     });
 </script>
-
-
-<style>
-#lineChartTemplate {
-min-height: 375px;
-height: 38vw;
-width: 48vw;
-max-height: 500px;
-max-width: 700px;
-}
-</style>
