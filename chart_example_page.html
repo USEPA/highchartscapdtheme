@@ -3,7 +3,6 @@
 
 <!-- Remove "https://epa.gov/" from these if publishing chart on Drupal -->
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/highcharts.js"></script>
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/tilemap.js"></script>
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/exporting.js"></script>
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/export-data.js"></script>
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/accessibility.js"></script>
@@ -102,7 +101,7 @@ const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 199
 const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.03];
 
 //Define highchart
-var generationChart = Highcharts.chart('netGenerationChartContainer', {
+var generationChart = Highcharts.chart('lineChartTemplate', {
   credits: {
     text: "Source: U.S. Energy Information Administration",
     href: "https://www.eia.gov/energyexplained/electricity/electricity-in-the-us-generation-capacity-and-sales.php",
