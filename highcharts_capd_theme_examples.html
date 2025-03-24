@@ -115,15 +115,17 @@ const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.
 //Define highchart
 var generationChart = Highcharts.chart('lineChartTemplate', {
   credits: {
-    text: "Source: U.S. Energy Information Administration",
-    href: "https://www.eia.gov/energyexplained/electricity/electricity-in-the-us-generation-capacity-and-sales.php",
+    text: "Source: EIA Annual Energy Review",
+    href: "https://www.eia.gov/totalenergy/data/annual/index.php",
   },
     chart: {
       animation: false,
+      marginBottom: 10,
       marginBottom: 50,
+      xAxisLabelAlignment: true, //Align first label left and last label right
     },
     title: {
-      text: "Total Electric Power Generation",
+      text: "Demand for Electric Power Generation Has Increased in Recent Years",
       margin: 30,
       align: 'left',
     },
@@ -144,7 +146,7 @@ var generationChart = Highcharts.chart('lineChartTemplate', {
             style:{fontWeight: 'bold'},
             textAlign: 'left',
             align: 'high',
-            offset: -190,
+            offset: -170,
             x: -200,
             rotation: 0,
             y: -20,
@@ -167,11 +169,9 @@ var generationChart = Highcharts.chart('lineChartTemplate', {
     },
     xAxis: {
     min: 0.5,
-  //setting the max as 32.5 forces the X axis to end on the last label
     max: 32.5,
     categories: powerGenYears,
-//Add one to last tickPositions array item each year
-//33 is for 2023 this year
+//Add one to last tickPositions array item each year      
 tickPositions: [0, 5, 10, 15, 20, 25, 30, 33],
 tickLength: 5,
 tickWidth: 1,
@@ -181,7 +181,7 @@ labels: {
       rotation: 0,
       step: 1,
         formatter() {
-//show a data label for every 5 years - add 2025 in 2026
+//every 5 years - add 2025 in 2026
         if(this.value == 1990 ||
            this.value == 1995 ||
            this.value == 2000 ||
@@ -200,12 +200,13 @@ labels: {
         color: "#2273BB",
         lineWidth: 3,
   name: "Generation (TWh)",
-            data: generationData
+            data: [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.02]
         }],
     tooltip: {
       valueSuffix: ''
     },
     legend: {
+        enabled: false,
         align: 'right',
         verticalAlign: 'middle',
         layout: 'vertical',
@@ -219,16 +220,17 @@ labels: {
         // Custom definition
         xls: {
           onclick: function() {
-            window.open('https://www.epa.gov/system/files/documents/2024-01/view-2022-camd-emissions-data.xlsx');
+        window.open('https://www.epa.gov/system/files/documents/2025-01/figure-2-eia-generation-data.xlsx');
           },
           text: 'Download data'
         }
       },
       buttons: {
         contextButton: {
-          menuItems: ['xls', 'viewFullscreen', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
+          menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
         }
       }
     },
     });
+//END CHART 3 CODE
 </script>
