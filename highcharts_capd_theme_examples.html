@@ -44,6 +44,11 @@
 
 <!-- CSS starts here. Always wrap in style tag. On Drupal, include this at the top of the javascript box.-->
 <style>
+.centered{
+media-align: center;
+text-align: center;
+margin: 0 auto;
+}
 #pieChartTemplate{
 min-height: 350px;
 height: 28vw;
@@ -62,16 +67,23 @@ height: 36vw;
 max-height: 450px;
 max-width: 750px;
 }
+#stackedBarChartTemplate {
+min-height: 350px;
+height: 36vw;
+max-height: 450px;
+max-width: 750px;
+}
 </style>
 
 <!-- Javascript starts below. Always wrap in script tag. On Drupal, include this in the javascript box.-->
 
 <script>
-  //Begin Javascript
-  //The following Javascript includes all necessary elements from the power sector dev portal style guide
+//Begin Javascript
+ //The following Javascript includes all necessary elements from the power sector dev portal style guide
 
 // Function to align first and last labels differently than the rest on the xAxis
 //For Highcharts line charts only
+//For charts that should include this kind of label alignment, add "xAxisLabelAlignment: true" to "chart" properties
 (function (H) {
     H.wrap(H.Tick.prototype, 'renderLabel', function (proceed, xy, old, opacity, index) {
         // Call the original function
@@ -125,12 +137,12 @@ Highcharts.setOptions({
 
 var $ = jQuery;
 
-//Start pie chart highchart template here
-//Set data
-
+//Start highcharts pie chart template code
+//Set data here
 const fuelData = [['Gas', 42.7], ['Coal', 16.2], ['Nuclear', 18.6], ['Hydro', 5.9], ['Wind', 10.1],  ['Biomass', 1.1], ['Solar', 4.0], ['Oil', 0.6], ['Geothermal', 0.4], ['Other Fossil Fuel', 0.5], ['Other Unknown Fuel', 0.1], ];
 var genColors = ['#EF5E25', '#5C5C5C', '#9287B8', '#237AC3', '#168092', '#4D8055', '#8A984B', '#8E704F', '#C84281', '#B04ADB', '#CD425B'];
-	
+
+//Define pie chart highchart template here
 Highcharts.chart('pieChartTemplate', {
     chart: {
         plotBackgroundColor: null,
@@ -146,16 +158,16 @@ Highcharts.chart('pieChartTemplate', {
     },
     title: {
         text: 'Electricity Mix, 2023',
-        align: 'left',
+        align: 'left', //Align title to the left
     },
     accessibility: {
         point: {
-            valueSuffix: '%'
+            valueSuffix: '%' //Add percentage symbol to the end of each data point
         }
     },
     plotOptions: {
         pie: {
-            allowPointSelect: true,
+            allowPointSelect: true, //Alows users to click a slice to highlight it. Turn off by changeing to false
             cursor: 'pointer',
         },
     series: {
@@ -165,10 +177,7 @@ Highcharts.chart('pieChartTemplate', {
       }
     }
     },
-  credits: {
-    enabled: false
-  },
-  colors: genColors,
+  colors: genColors, //setting colors to the colors defined above. These colors come from the data visualization style guide.
       exporting: {
       menuItemDefinitions: {
         // Custom definition
@@ -176,12 +185,12 @@ Highcharts.chart('pieChartTemplate', {
           onclick: function() {
             window.open('https://www.epa.gov/egrid/download-data');
           },
-          text: 'Download Data'
+          text: 'Download data'
         }
       },
       buttons: {
         contextButton: {
-          menuItems: ['dd', 'downloadPNG', 'downloadPDF', 'downloadJPEG', 'downloadSVG']
+          menuItems: ['dd', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
         }
       }
     },
@@ -196,12 +205,15 @@ Highcharts.chart('pieChartTemplate', {
 });
 //End pie chart highchart template here
 	
-//Start line chart highchart template here
+	
+//Start highcharts line chart template code
+	
 //Set data here
 const currentGenYear = 2023; //Last year included on the line chart
 const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.02];
 
+//Define line chart highchart template here
 var generationChart = Highcharts.chart('lineChartTemplate', {
   //Credits is the reference / source at the bottom right of the chart
   credits: {
@@ -323,7 +335,6 @@ labels: {
     },
     });
 //End highcharts line chart template code
-
 
 //Start highcharts bar chart template code
 
@@ -452,5 +463,160 @@ labels: {
     });
 //end highcharts bar chart template code
 
-  
+
+//Start highcharts stacked bar chart template
+
+//Set data here
+const currentRenewableYear = 2023;
+const renewableYears = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023
+];
+const otherRenewableData = [0.1, 0.1, 0.0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.2, 0.4, 0.2, 0.2, 0.5, 0.8, 0.2, 0.3, 0.1, 0.2, 0.2, 0.2, 0.1, 0.0, 0.1, 0.1];
+const hydroRenewableData =[0.0, 0.1, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.4, 0.2, 0.1, 0.4, 0.2, 0.1, 0.0, 0.2, 0.1, 0.0, 0.0];
+const solarRenewableData =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.2, 0.8, 1.6, 3.5, 3.8, 3.5, 8.0, 5.2, 4.9, 5.6, 10.7, 13.6, 11.1, 18.9];
+const windRenewableData =[0.0, 1.4, 0.7, 1.5, 0.4, 2.2, 2.6, 5.3, 8.3, 9.9, 4.8, 6.8, 13.1, 0.9, 4.9, 8.2, 8.7, 6.0, 6.9, 9.3, 14.6, 14.4, 9.1, 6.5];
+
+//Define bar chart highchart template here
+var renewableAdditionsChartContainer = Highcharts.chart('stackedBarChartTemplate', {
+//Credits is the source shown in the bottom right of the chart  
+credits: {
+    text: "Source: EIA Electric Power Annual",
+    href: "https://www.eia.gov/electricity/annual/",
+  },
+    chart: {
+      type: 'column',
+      animation: false,
+    },
+    title: {
+      text: "Construction of Renewable Electricity Sources Has Increased Rapidly, Driven Primarily by Wind and, in Later Years, Solar",
+      margin: 30,
+      align: 'left', //Align the title to the left
+    },
+  caption: {
+    text: "<br />Capacity = net summer capacity",
+    y: 0,
+    style: {
+      fontSize: '8px'
+    },
+  },
+    plotOptions: {
+      label: {
+        onArea: false
+      },
+      column:{
+      pointWidth: 18,
+      stacking: 'normal'
+      },
+      series: {
+        animation: false,
+      }
+    },
+    yAxis: {
+      reversedStacks: false,
+      tickInterval: 10,
+      min: 0,
+      max: 30,
+      title: {
+            text: 'Renewable Capacity <br>Additions (GW)',
+            style:{fontWeight: 'bold'},
+            textAlign: 'left',
+            align: 'high',
+            offset: -190,
+            x: -200,
+            rotation: 0,
+            y: -25,
+        },
+      labels: {
+        formatter: 
+        function() {
+          return this.value;
+        }
+      },
+      gridLineDashStyle: 'dash',
+      gridLineColor: '#c9c9c9',
+      minorGridLineWidth: 0,
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#2e2e2e',
+        zIndex: 2
+      }],
+    },
+    xAxis: {
+    min: 0,
+    max: 23,
+    categories: renewableYears,
+//Add one to last tickPositions array item each year
+//Setting 23 as the last tick for 2023
+tickPositions: [0, 5, 10, 15, 20, 23],
+tickLength: 5,
+tickWidth: 1,
+tickColor: '#2e2e2e',
+tickmarkPlacement: 'on',
+labels: {
+      rotation: 0,
+      step: 1,
+        formatter() {
+//every 5 years - add 2025 in 2026
+        if(this.value % 5 === 0 ||
+           this.value === currentRenewableYear) {
+            return this.value
+        }
+    }
+    }
+    },
+    series: [{
+        name: "Other",
+        data: otherRenewableData,
+        color: '#C9C9C9'
+    },{
+        name: "Hydro",
+        data: hydroRenewableData,
+        color: '#2378C3'
+    },{
+        name: "Solar",
+        data: solarRenewableData,
+        color: '#8A984B'
+    },
+    {
+        name: "Wind",
+        data: windRenewableData,
+        color: '#168092'
+    },
+    ],
+    tooltip: {
+		headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
+      shared: true,
+      valueSuffix: ' GW',
+      shape: "rect",
+      pointFormat: '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>'
+    },
+    legend: {
+        enabled: true,
+        reversed: true,
+	symbolRadius: 0,
+        align: 'center',
+        verticalAlign: 'bottom',
+        //layout: 'horizontal',
+        //itemMarginBottom: 8
+    },
+    exporting: {
+      sourceWidth: 1050,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function() {
+            window.open('https://www.epa.gov/system/files/documents/2025-01/figure-9-renewable-capacity-added.xlsx');
+          },
+          text: 'Download data'
+        }
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
+        }
+      }
+    },
+    });
+//end highcharts stacked bar chart template
 </script>
