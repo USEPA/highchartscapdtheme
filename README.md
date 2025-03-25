@@ -11,7 +11,7 @@ The [highcharts_capd_theme_examples.html](https://github.com/USEPA/highchartscap
 * Stacked bar charts
 * Stacked area charts
 
-[Download the file](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) and open it with a web browser to see interactive versions of the chart, or look through the code to create your own charts based off of the templates.
+[Download the file](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) and open it with a web browser to see interactive versions of the chart, or look through the code to create your own charts based off of the templates. Because the file is all-ecompassing, it may take a moment to load the charts.
 
 Other chart types available with highcharts include:
 * Interactive maps (see ["Power Sector Evolution"](https://www.epa.gov/power-sector/power-sector-evolution#fleetturnover))
