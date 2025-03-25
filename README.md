@@ -11,12 +11,14 @@ The [highcharts_capd_theme_examples.html](https://github.com/USEPA/highchartscap
 * Stacked bar charts
 * Stacked area charts
 
+[Download the file](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) and open it with a web browser to see interactive versions of the chart, or look through the code to create your own charts based off of the templates.
+
 Other chart types available with highcharts include:
 * Interactive maps (see ["Power Sector Evolution"](https://www.epa.gov/power-sector/power-sector-evolution#fleetturnover))
 * Combined "double-charts" with two related charts side-by-side or top and bottom (see ["Emission Controls and Monitoring" section of the Power Sector Programs Progress Report](https://www.epa.gov/power-sector/progress-report-emission-controls-and-monitoring#so2))
 * Drilldown charts wich allow users to click and "drill down" on data. (see ["Power Sector Basics"](https://www.epa.gov/power-sector/electric-power-sector-basics#howiselectricityused))
 
-[Download the file](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) and open it with a web browser to see interactive versions of the chart, or look through the code to create your own charts based off of the templates.
+Use developer tools to find the code for these types of charts, or feel free to reach out for help!
 
 ## Project Website
 
