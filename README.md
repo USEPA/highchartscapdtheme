@@ -1,8 +1,22 @@
 # Highcharts CAPD Theme
 ## Brief Project Description
-This repository contains code and guidance for creating interactive Highchart graphics related to EPA's Power Sector.
+This repository contains code and comments to help developers create interactive Highchart graphics related to EPA's Power Sector programs and data.
 
 This is a small piece of the larger [Power Sector Dev Portal](https://github.com/USEPA/power-sector-dev-portal) project.
+
+The [highcharts_capd_theme_examples.html](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) file is an all-in-one template file for charts including the HTML, Javascript, and CSS necessary to run highcharts on Drupal or other public EPA web serers. The file contains template charts for:
+* Pie charts
+* Line charts
+* Bar charts
+* Stacked bar charts
+* Stacked area charts
+
+Other chart types available with highcharts include:
+* Interactive maps (see ["Power Sector Evolution"](https://www.epa.gov/power-sector/power-sector-evolution#fleetturnover))
+* Combined "double-charts" with two related charts side-by-side or top and bottom (see ["Emission Controls and Monitoring" section of the Power Sector Programs Progress Report](https://www.epa.gov/power-sector/progress-report-emission-controls-and-monitoring#so2))
+* Drilldown charts wich allow users to click and "drill down" on data. (see ["Power Sector Basics"](https://www.epa.gov/power-sector/electric-power-sector-basics#howiselectricityused))
+
+[Download the file](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) and open it with a web browser to see interactive versions of the chart, or look through the code to create your own charts based off of the templates.
 
 ## Project Website
 
