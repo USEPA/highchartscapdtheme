@@ -147,7 +147,8 @@ var $ = jQuery;
 //Set data here
 const fuelData = [['Gas', 42.7], ['Coal', 16.2], ['Nuclear', 18.6], ['Hydro', 5.9], ['Wind', 10.1],  ['Biomass', 1.1], ['Solar', 4.0], ['Oil', 0.6], ['Geothermal', 0.4], ['Other Fossil Fuel', 0.5], ['Other Unknown Fuel', 0.1], ];
 var genColors = ['#EF5E25', '#5C5C5C', '#9287B8', '#237AC3', '#168092', '#4D8055', '#8A984B', '#8E704F', '#C84281', '#B04ADB', '#CD425B'];
-
+var pieTitle = "Electricity Mix, 2023";
+	
 //Define pie chart highchart template here
 Highcharts.chart('pieChartTemplate', {
  chart: {
@@ -163,7 +164,7 @@ Highcharts.chart('pieChartTemplate', {
  },
  },
  title: {
-  text: 'Electricity Mix, 2023',
+  text: pieTitle,
   align: 'left', //Align title to the left
  },
  accessibility: {
