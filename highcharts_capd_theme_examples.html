@@ -12,7 +12,7 @@
 <script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/drilldown.js"></script>
 
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <!-- HTML for the webpage included here. Div tags with the correct IDs are needed to connect to the Javascript code for each chart. -->
 
@@ -127,7 +127,7 @@ max-width: 750px;
    return;
   }
  });
-})(Highcharts);
+})(Highcharts);  //End label align function
 
 //Set default font, comma for thousands separator, and decimal point style
 //These options apply to multiple charts in the code
@@ -143,90 +143,102 @@ Highcharts.setOptions({
 
 var $ = jQuery;
 
-//Start highcharts pie chart template code
-//Set data here
-const fuelData = [['Gas', 42.7], ['Coal', 16.2], ['Nuclear', 18.6], ['Hydro', 5.9], ['Wind', 10.1],  ['Biomass', 1.1], ['Solar', 4.0], ['Oil', 0.6], ['Geothermal', 0.4], ['Other Fossil Fuel', 0.5], ['Other Unknown Fuel', 0.1], ];
-var genColors = ['#EF5E25', '#5C5C5C', '#9287B8', '#237AC3', '#168092', '#4D8055', '#8A984B', '#8E704F', '#C84281', '#B04ADB', '#CD425B'];
 
-//Set pie chart title text here
-var pieTitle = "Electricity Mix, 2023";
+//Start highcharts pie chart template code
+
+// Set title text here
+const pieTitle = "Electricity Mix, 2023";
 	
-//Define pie chart highchart template here
-Highcharts.chart('pieChartTemplate', {
- chart: {
-  plotBackgroundColor: null,
-  plotBorderWidth: null,
-  plotShadow: false,
-  type: 'pie'
- },
-   tooltip:{
- valueSuffix: '%',
-  formatter: function() {
-  return '<br/><span style="color:' + this.color + '">\u25CF</span> ' + this.key + ': ' + '<b>' + this.y + '</b>' + '%';
- },
- },
- title: {
-  text: pieTitle,
-  align: 'left', //Align title to the left
- },
- accessibility: {
-  point: {
-   valueSuffix: '%' //Add percentage symbol to the end of each data point
-  }
- },
- plotOptions: {
-  pie: {
-   allowPointSelect: true, //Alows users to click a slice to highlight it. Turn off by changeing to false
-   cursor: 'pointer',
-  },
- series: {
-   dataLabels: {
-  enabled: true,
-  format: '{point.name}: {point.y:.1f}%'
-   }
- }
- },
-  colors: genColors, //setting colors to the colors defined above. These colors come from the data visualization style guide.
-   exporting: {
-   menuItemDefinitions: {
-  // Custom definition
-  dd: {
-    onclick: function() {
-   window.open('https://www.epa.gov/egrid/download-data');
-    },
-    text: 'Download data'
-  }
-   },
-   buttons: {
-  contextButton: {
-    menuItems: ['dd', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-  }
-   }
- },
- series: [{
-  colorByPoint: true,
-  data: fuelData,
-   }],
-  credits: {
- text: 'Source: eGRID',
- href: 'https://www.epa.gov/egrid',
-  }
-});
-//End pie chart highchart template here
-	
-	
+// Set data here
+const fuelData = [ ['Gas', 42.7], ['Coal', 16.2], ['Nuclear', 18.6], ['Hydro', 5.9], ['Wind', 10.1], ['Biomass', 1.1], ['Solar', 4.0], ['Oil', 0.6], ['Geothermal', 0.4], ['Other Fossil Fuel', 0.5], ['Other Unknown Fuel', 0.1] ];
+
+// Set colors here
+const genColors = ['#EF5E25', '#5C5C5C', '#9287B8', '#237AC3', '#168092', '#4D8055', '#8A984B', '#8E704F', '#C84281', '#B04ADB', '#CD425B'];
+
+// Function to create a pie chart
+function createPieChart(containerId, title, data, colors) {
+    Highcharts.chart(containerId, {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        tooltip: {
+            valueSuffix: '%',
+            formatter: function() {
+                return `<br/><span style="color:${this.color}">\u25CF</span> ${this.key}: <b>${this.y}</b>%`;
+            }
+        },
+        title: {
+            text: title,
+            align: 'left'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}: {point.y:.1f}%'
+                }
+            }
+        },
+        colors: colors,
+        exporting: {
+            menuItemDefinitions: {
+                dd: {
+                    onclick: function() {
+                        window.open('https://www.epa.gov/egrid/download-data');
+                    },
+                    text: 'Download data'
+                }
+            },
+            buttons: {
+                contextButton: {
+                    menuItems: ['dd', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
+                }
+            }
+        },
+        series: [{
+            colorByPoint: true,
+            data: data
+        }],
+        credits: {
+            text: 'Source: eGRID',
+            href: 'https://www.epa.gov/egrid'
+        }
+    });
+}
+
+// Create the pie chart, using the parameters set at the start of this section
+createPieChart('pieChartTemplate', pieTitle, fuelData, genColors);
+
+//End highcharts pie chart template code
+
+
+
 //Start highcharts line chart template code
+
+//Set title text here
+var lineTitle = "Demand for Electric Power Generation Has Increased in Recent Years";
 	
 //Set data here
 const currentGenYear = 2023; //Last year included on the line chart
 const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.02];
 
-//Set line chart title text here
-var lineTitle = "Demand for Electric Power Generation Has Increased in Recent Years";
-
+//Set color
+const lineColor = "#2273BB",
+	
 //Define line chart highchart template here
-var generationChart = Highcharts.chart('lineChartTemplate', {
+function createLineChart(containerId, title, data, colors){
+Highcharts.chart(containerId, {
   //Credits is the reference / source at the bottom right of the chart
   credits: {
  text: "Source: EIA Annual Energy Review",
@@ -239,7 +251,7 @@ var generationChart = Highcharts.chart('lineChartTemplate', {
    xAxisLabelAlignment: true, //Align first label left and last label right
  },
  title: {
-   text: lineTitle,
+   text: title,
    margin: 30,
    align: 'left', //Align title left.
  },
@@ -311,10 +323,10 @@ labels: {
  },
   series: [{
   type: 'line',
-  color: "#2273BB",
+  color: lineColor,
   lineWidth: 3,
   name: "Generation (TWh)",
-  data: generationData, //reference the data array that was set above
+  data: data, //reference the data array that was set above
   }],
  tooltip: {
    valueSuffix: ''
@@ -346,15 +358,20 @@ labels: {
    }
  },
  });
+
+// Create the line chart, using the parameters set at the start of this section
+createPieChart('lineChartTemplate', lineTitle, generationData, lineColor);
+	
 //End highcharts line chart template code
 
+	
 //Start highcharts bar chart template code
 
 //Set data here
 const coalCapacityFactorYears = [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 const coalCapacityFactorData = [73, 73, 74, 72, 64, 67, 62, 56, 60, 60, 55, 53, 54, 54, 48, 41, 49, 50, 43];
 
-//Set bar chart title text here
+//Set title text here
 var barTitle = "Operating Coal Sources Have Transitioned From Baseload to Intermediate Power Providers";
 	
 //Define bar chart highchart template here
@@ -491,7 +508,7 @@ const hydroRenewableData =[0.0, 0.1, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 const solarRenewableData =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.2, 0.8, 1.6, 3.5, 3.8, 3.5, 8.0, 5.2, 4.9, 5.6, 10.7, 13.6, 11.1, 18.9];
 const windRenewableData =[0.0, 1.4, 0.7, 1.5, 0.4, 2.2, 2.6, 5.3, 8.3, 9.9, 4.8, 6.8, 13.1, 0.9, 4.9, 8.2, 8.7, 6.0, 6.9, 9.3, 14.6, 14.4, 9.1, 6.5];
 
-//Set stacked bar chart title text here
+//Set stacked bar chart title
 var stackedBarTitle = "Construction of Renewable Electricity Sources Has Increased Rapidly, Driven Primarily by Wind and, in Later Years, Solar";
 	
 //Define bar chart highchart template here
@@ -691,7 +708,7 @@ data: [ 753.9, 768.8, 780.1, 763.7, 788.5, 782.0, 787.2, 806.4, 806.2, 798.9, 80
   }
  ];
 
-//Set stacked area chart title text
+//Set stacked Area chart Title
 var stackedAreaTitle = "Renewable and Natural Gas Generation Are Growing Contributions to the Power Sector";
 	
 //Begin definition of stacked area chart
