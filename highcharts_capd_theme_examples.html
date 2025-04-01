@@ -5,12 +5,10 @@
 
 <!-- Remove "https://epa.gov/" from these if publishing chart on Drupal -->
 <!-- On Drupal, include this in the javascript box.-->
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/highcharts.js"></script>
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/exporting.js"></script>
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/export-data.js"></script>
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/accessibility.js"></script>
-<script src="https://epa.gov/sites/all/libraries/js/highcharts7/code/modules/drilldown.js"></script>
-
+<script src="https://code.highcharts.com/maps/10.3.1/highmaps.js"></script>
+<script src="https://code.highcharts.com/10.3.3/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/10.3.3/modules/broken-axis.js"></script>
+<script src="https://code.highcharts.com/10.3.3/modules/accessibility.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
@@ -25,6 +23,12 @@
 <figure class="highcharts-figure">
 <div class="centered" id="lineChartTemplate">&nbsp;</div>
 </figure>
+
+<h2>Multi-Line Chart Template</h2>
+<figure class="highcharts-figure">
+<div class="centered" id="multiLineChartTemplate">&nbsp;</div>
+</figure>
+
 
 <h2>Bar Chart Template</h2>
 <figure class="highcharts-figure">
@@ -56,6 +60,12 @@ max-height: 750px;
 max-width: 700px;
 }
 #lineChartTemplate {
+min-height: 350px;
+height: 36vw;
+max-height: 450px;
+max-width: 800px;
+}
+#multiLineChartTemplate {
 min-height: 350px;
 height: 36vw;
 max-height: 450px;
@@ -226,8 +236,9 @@ createPieChart('pieChartTemplate', pieTitle, fuelData, genColors);
 //Start highcharts line chart template code
 
 //Set title text here
-var lineTitle = "Demand for Electric Power Generation Has Increased in Recent Years";
-	
+const lineTitle = "Demand for Electric Power Generation Has Increased in Recent Years";
+
+const lineYAxisTitle = "Generation Terrawatt Hours (TWh)";
 //Set data here
 const currentGenYear = 2023; //Last year included on the line chart
 const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
@@ -237,7 +248,7 @@ const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.
 const lineColor = "#2273BB";
 	
 //Define line chart highchart template here
-function createLineChart(containerId, title, data, color) {
+function createLineChart(containerId, title, yAxisTitle, data, color) {
     Highcharts.chart(containerId, {
   //Credits is the reference / source at the bottom right of the chart
   credits: {
@@ -268,7 +279,7 @@ function createLineChart(containerId, title, data, color) {
    min: 2.5,
    max: 4.5,
    title: {
-   text: 'Generation Terrawatt Hours (TWh)',
+   text: yAxisTitle,
    style:{fontWeight: 'bold'},
    textAlign: 'left',
    align: 'high',
@@ -361,15 +372,186 @@ labels: {
 }
 
 // Create the line chart, using the parameters set at the start of this section
-createLineChart('lineChartTemplate', lineTitle, generationData, lineColor);
+createLineChart('lineChartTemplate', lineTitle, lineYAxisTitle, generationData, lineColor);
 	
 //End highcharts line chart template code
 
 
+///Start highcharts multi-line chart template code
+
+//Set multi-line chart title text here
+const multiLineTitle = "Even With Growth in Generation, Power Sector Emissions Decreased at Varying Rates";
+
+//Set yAxis Title Text here
+const multiLineYAxisTitle = "Percent Change (%)";
+
+//Set data here
+const reportYear = 2023; // Last year included on the line chart
+const emissionYears = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+
+//Set series data here
+const multiLineChartData = [
+    {
+        name: "Gross Generation",
+        color: "#3A7E11",
+        data: [0, 3, 4, 8, 11, 14, 12, 16, 16, 19, 22, 22, 25, 24, 19, 24, 24, 22, 22, 23, 23, 23, 21, 26, 24, 21, 24, 28, 26],        lineWidth: 5,
+        dataLabels: { y: 5 },
+        marker: {enabled: false, symbol: 'circle'}
+    },
+    {
+        name: "Carbon Dioxide",
+        color: "#CD425B",
+        data: [0, 3, 7, 10, 11, 14, 11, 12, 14, 15, 18, 16, 19, 17, 7, 14, 9, 2, 4, 4, -3, -8, -11, -10, -18, -27, -21, -22, -28],        lineWidth: 3,
+        dataLabels: { y: 10 },
+        marker: {enabled: false, symbol: 'circle'}
+    },
+    {
+        name: "Nitrogen Oxides",
+        color: "#2378C3",
+        data: [0, 3, 3, 2, -6, -13, -19, -23, -29, -36, -38, -42, -44, -49, -65, -64, -66, -71, -71, -72, -76, -79, -82, -83, -85, -87, -87, -87, -89],        dataLabels: { y: -20 },
+        marker: {enabled: false, symbol: 'circle'}
+    },
+    {
+        name: "Sulfur Dioxide",
+        color: "#9287D8",
+        data: [0, 6, 9, 11, 5, -5, -10, -14, -10, -13, -14, -21, -25, -36, -51, -56, -62, -72, -73, -73, -81, -87, -89, -89, -92, -93, -92, -93, -96],        lineWidth: 3,
+        dataLabels: { y: 10, x: 20 },
+        marker: {enabled: false, symbol: 'circle'}
+    }
+];
+
+//Define multi-line chart highchart template here
+function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
+    Highcharts.chart(containerId, {
+        credits: {
+        text: 'Source: EIA Annual Energy Review & EPA Power Sector Emissions Data',
+        href: 'https://www.eia.gov/totalenergy/data/annual/index.php',
+        },
+        chart: {
+            animation: false,
+            spacingLeft: 0,
+            xAxisLabelAlignment: true,
+        },
+        title: {
+            text: title,
+            margin: 40,
+            align: 'left',
+        },
+        plotOptions: {
+            label: {
+                onArea: false
+            },
+            series: {
+                animation: false,
+            }
+        },
+        yAxis: {
+            title: {
+                text: yAxisTitle,
+                style: { fontWeight: 'bold' },
+                align: 'high',
+                offset: -100,
+                x: -30,
+                rotation: 0,
+                y: -20,
+            },
+            min: -100,
+            labels: {
+                formatter: function() {
+                    return this.value + "%";
+                }
+              },
+            gridLineDashStyle: 'dash',
+            gridLineColor: '#c9c9c9',
+            minorGridLineWidth: 0,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#c9c9c9',
+                zIndex: 3
+            },
+            {
+                value: -100,
+                width: 1,
+                color: '#2e2e2e',
+                zIndex: 2
+            }],
+        },
+        xAxis: {
+            min: 0.5,
+            max: 27.5,
+            categories: years,
+            tickPositions: [0, 5, 10, 15, 20, 25, 28],
+            tickLength: 5,
+            tickWidth: 1,
+            tickColor: '#2e2e2e',
+            tickmarkPlacement: 'on',
+            labels: {
+                rotation: 0,
+                step: 1,
+                formatter() {
+                    if (this.value == 1990 ||
+                        this.value == 1995 ||
+                        this.value == 2000 ||
+                        this.value == 2005 ||
+                        this.value == 2010 ||
+                        this.value == 2015 ||
+                        this.value == 2020 ||
+                        this.value == reportYear) {
+                        return this.value;
+                    }
+                }
+            }
+        },
+        series: series,
+        tooltip: {
+          headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
+        shared: true,
+        valueSuffix: '%',
+        shape: "line",
+      pointFormat: '<span style="color:{series.color}"><b>━</b></span> {series.name}: <b>{point.y}</b><br/>'
+       },
+        legend: {
+            align: 'right',
+            verticalAlign: 'middle',
+            layout: 'proximate',
+            itemMarginTop: 8,
+            itemMarginBottom: 8
+        },
+        exporting: {
+            sourceWidth: 900,
+            sourceHeight: 500,
+            menuItemDefinitions: {
+                xls: {
+                    onclick: function() {
+                      window.open('https://www.epa.gov/system/files/documents/2025-01/figure-1-emissions-and-generation-data.xlsx');
+          },
+          text: 'Download data'
+        }
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
+        }
+            }
+        },
+    });
+}
+
+// Create the multi-line chart, using the parameters set at the start of this section
+createMultiLineChart('multiLineChartTemplate', multiLineTitle, multiLineYAxisTitle, emissionYears, multiLineChartData);
+
+//End highcharts multi-line chart template code
+
+
+
 //Start highcharts bar chart template code
 
-// Set title text here
+// Set bar chart title text here
 const barTitle = "Operating Coal Sources Have Transitioned From Baseload to Intermediate Power Providers";
+
+//set bar chart y axis title here
+const barChartYAxisTitle = "Capacity Weighted Capacity Factor";
 
 //Set data here
 const coalCapacityFactorYears = [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
@@ -379,7 +561,7 @@ const coalCapacityFactorData = [73, 73, 74, 72, 64, 67, 62, 56, 60, 60, 55, 53, 
 const barColor = '#5C5C5C';
 
 // Function to create a bar chart
-function createBarChart(containerId, title, categories, data, color) {
+function createBarChart(containerId, title, yAxisTitle, categories, data, color) {
     Highcharts.chart(containerId, {
   //Credits is the reference / source at the bottom right of the chart
   credits: {
@@ -412,7 +594,7 @@ function createBarChart(containerId, title, categories, data, color) {
    min: 0,
    max: 80,
    title: {
-   text: 'Capacity Weighted Capacity Factor',
+   text: yAxisTitle,
    style:{fontWeight: 'bold'},
    textAlign: 'left',
    align: 'high',
@@ -501,12 +683,19 @@ labels: {
 });
 };
 
- createBarChart('barChartTemplate', barTitle, coalCapacityFactorYears, coalCapacityFactorData, barColor);
+ createBarChart('barChartTemplate', barTitle, barChartYAxisTitle, coalCapacityFactorYears, coalCapacityFactorData, barColor);
 
 //end highcharts bar chart template code
 
 
 // Start highcharts stacked bar chart template
+
+
+// Set stacked bar chart title
+const stackedBarTitle = "Construction of Renewable Electricity Sources Has Increased Rapidly, Driven Primarily by Wind and, in Later Years, Solar";
+
+//set stacked bar chart y axis title
+const stackedBarYAxisTitle = "Renewable Capacity <br>Additions (GW)";
 
 // Set data here
 const currentRenewableYear = 2023;
@@ -518,10 +707,8 @@ const renewableData = {
     wind: [0.0, 1.4, 0.7, 1.5, 0.4, 2.2, 2.6, 5.3, 8.3, 9.9, 4.8, 6.8, 13.1, 0.9, 4.9, 8.2, 8.7, 6.0, 6.9, 9.3, 14.6, 14.4, 9.1, 6.5]
 };
 
-// Set stacked bar chart title
-const stackedBarTitle = "Construction of Renewable Electricity Sources Has Increased Rapidly, Driven Primarily by Wind and, in Later Years, Solar";
 // Function to create a stacked bar chart
-function createStackedBarChart(containerId, title, years, data) {
+function createStackedBarChart(containerId, title, yAxisTitle, years, data) {
     Highcharts.chart(containerId, {
         // Credits is the source shown in the bottom right of the chart  
         credits: {
@@ -562,7 +749,7 @@ function createStackedBarChart(containerId, title, years, data) {
             min: 0,
             max: 30,
             title: {
-                text: 'Renewable Capacity <br>Additions (GW)',
+                text: yAxisTitle,
                 style: { fontWeight: 'bold' },
                 textAlign: 'left',
                 align: 'high',
@@ -661,12 +848,18 @@ function createStackedBarChart(containerId, title, years, data) {
 }
 
 // Call the function to create the stacked bar chart
-createStackedBarChart('stackedBarChartTemplate', stackedBarTitle, renewableYears, renewableData);
+createStackedBarChart('stackedBarChartTemplate', stackedBarTitle, stackedBarYAxisTitle, renewableYears, renewableData);
 
 // End highcharts stacked bar chart template
 
 
 // Start highcharts stacked area chart template
+
+// Set stacked Area chart Title
+const stackedAreaTitle = "Renewable and Natural Gas Generation Are Growing Contributions to the Power Sector";
+
+//set stacked area Y Axis title
+const stackedAreaYAxisTitle = "Generation Gigawatt Hours (GWh)";
 
 // Set the years and data here
 const netGenYears = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
@@ -717,11 +910,9 @@ const netGenData = [
 data: [ 753.9, 768.8, 780.1, 763.7, 788.5, 782.0, 787.2, 806.4, 806.2, 798.9, 807.0, 790.2, 769.3, 789.0, 797.2, 797.2, 805.7, 805.0, 807.1, 809.4, 789.9, 779.6, 771.5, 774.9]
   }
  ];
-// Set stacked Area chart Title
-const stackedAreaTitle = "Renewable and Natural Gas Generation Are Growing Contributions to the Power Sector";
 
 // Function to create a stacked area chart
-function createStackedAreaChart(containerId, title, years, data) {
+function createStackedAreaChart(containerId, title, yAxisTitle, years, data) {
     Highcharts.chart(containerId, {
         credits: {
             text: "Source: EIA Annual Energy Review",
@@ -757,7 +948,7 @@ function createStackedAreaChart(containerId, title, years, data) {
             min: 0,
             max: 5000,
             title: {
-                text: 'Generation Gigawatt Hours (GWh)',
+                text: yAxisTitle,
                 style: { fontWeight: 'bold' },
                 textAlign: 'left',
                 align: 'high',
@@ -839,7 +1030,7 @@ function createStackedAreaChart(containerId, title, years, data) {
 }
 
 // Call the function to create the stacked area chart
-createStackedAreaChart('stackedAreaChartTemplate', stackedAreaTitle, netGenYears, netGenData);
+createStackedAreaChart('stackedAreaChartTemplate', stackedAreaTitle, netGenYears, netGenData, stackedAreaYAxisTitle);
 
 // End highcharts stacked area chart template
 
