@@ -234,11 +234,11 @@ const powerGenYears = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 199
 const generationData = [2.90, 2.94, 2.93, 3.04, 3.09, 3.19, 3.28, 3.33, 3.46, 3.53, 3.64, 3.58, 3.70, 3.72, 3.81, 3.90, 3.91, 4.01, 3.97, 3.81, 3.97, 3.95, 3.89, 3.90, 3.94, 3.92, 3.92, 3.88, 4.02, 3.97, 3.85, 3.96, 4.07, 4.02];
 
 //Set color
-const lineColor = "#2273BB",
+const lineColor = "#2273BB";
 	
 //Define line chart highchart template here
-function createLineChart(containerId, title, data, colors){
-Highcharts.chart(containerId, {
+function createLineChart(containerId, title, data, color) {
+    Highcharts.chart(containerId, {
   //Credits is the reference / source at the bottom right of the chart
   credits: {
  text: "Source: EIA Annual Energy Review",
