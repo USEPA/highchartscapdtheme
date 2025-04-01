@@ -167,63 +167,65 @@ const genColors = ['#EF5E25', '#5C5C5C', '#9287B8', '#237AC3', '#168092', '#4D80
 
 // Function to create a pie chart
 function createPieChart(containerId, title, data, colors) {
-    Highcharts.chart(containerId, {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+  Highcharts.chart(containerId, {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+    },
+    tooltip: {
+      valueSuffix: "%",
+      formatter: function () {
+        return `<br/><span style="color:${this.color}">\u25CF</span> ${this.key}: <b>${this.y}</b>%`
+      },
+    },
+    title: {
+      text: title,
+      align: "left",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: "pointer",
+        dataLabels: {
+          enabled: true,
+          format: "{point.name}: {point.y:.1f}%",
         },
-        tooltip: {
-            valueSuffix: '%',
-            formatter: function() {
-                return `<br/><span style="color:${this.color}">\u25CF</span> ${this.key}: <b>${this.y}</b>%`;
-            }
+      },
+    },
+    colors: colors,
+    exporting: {
+      menuItemDefinitions: {
+        dd: {
+          onclick: function () {
+            window.open("https://www.epa.gov/egrid/download-data")
+          },
+          text: "Download data",
         },
-        title: {
-            text: title,
-            align: 'left'
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ["dd", "downloadPNG", "downloadJPEG", "downloadSVG"],
         },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
-            }
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}: {point.y:.1f}%'
-                }
-            }
-        },
-        colors: colors,
-        exporting: {
-            menuItemDefinitions: {
-                dd: {
-                    onclick: function() {
-                        window.open('https://www.epa.gov/egrid/download-data');
-                    },
-                    text: 'Download data'
-                }
-            },
-            buttons: {
-                contextButton: {
-                    menuItems: ['dd', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-                }
-            }
-        },
-        series: [{
-            colorByPoint: true,
-            data: data
-        }],
-        credits: {
-            text: 'Source: eGRID',
-            href: 'https://www.epa.gov/egrid'
-        }
-    });
+      },
+    },
+    series: [
+      {
+        colorByPoint: true,
+        data: data,
+      },
+    ],
+    credits: {
+      text: "Source: eGRID",
+      href: "https://www.epa.gov/egrid",
+    },
+  })
 }
 
 // Create the pie chart, using the parameters set at the start of this section
@@ -249,126 +251,133 @@ const lineColor = "#2273BB";
 	
 //Define line chart highchart template here
 function createLineChart(containerId, title, yAxisTitle, data, color) {
-    Highcharts.chart(containerId, {
-  //Credits is the reference / source at the bottom right of the chart
-  credits: {
- text: "Source: EIA Annual Energy Review",
- href: "https://www.eia.gov/totalenergy/data/annual/index.php",
-  },
- chart: {
-   animation: false,
-   marginBottom: 10,
-   marginBottom: 50,
-   xAxisLabelAlignment: true, //Align first label left and last label right
- },
- title: {
-   text: title,
-   margin: 30,
-   align: 'left', //Align title left.
- },
- plotOptions: {
-   label: {
-  onArea: false
-   },
-   series: {
-  animation: false,
-   }
- },
- yAxis: {
-   tickInterval: 0.5,
-   min: 2.5,
-   max: 4.5,
-   title: {
-   text: yAxisTitle,
-   style:{fontWeight: 'bold'},
-   textAlign: 'left',
-   align: 'high',
-   offset: -170,
-   x: -200,
-   rotation: 0,
-   y: -20,
-  },
-   labels: {
-  formatter: 
-  function() {
-    return this.value;
-  }
-   },
-   gridLineDashStyle: 'dash',
-   gridLineColor: '#c9c9c9',
-   minorGridLineWidth: 0,
-   plotLines: [{
-  value: 2.5, 
-  width: 1, 
-  color: '#2e2e2e',   //set solid black line at the base of the y axis
-  zIndex: 2
-   }],
- },
- xAxis: {
- min: 0.5,
- max: 32.5,
- categories: powerGenYears,
-//Add one to last tickPositions array item each year   
-tickPositions: [0, 5, 10, 15, 20, 25, 30, 33],
-tickLength: 5,
-tickWidth: 1,
-tickColor: '#2e2e2e',
-tickmarkPlacement: 'on',
-labels: {
-   rotation: 0,
-   step: 1,
-  formatter() {
-//every 5 years - add 2025 in 2026
-  if(this.value == 1990 ||
-     this.value == 1995 ||
-     this.value == 2000 ||
-     this.value == 2005 ||
-     this.value == 2010 ||
-     this.value == 2015 ||
-     this.value == 2020 ||
-     this.value == currentGenYear) {
-   return this.value
-  }
- }
- }
- },
-  series: [{
-  type: 'line',
-  color: lineColor,
-  lineWidth: 3,
-  name: "Generation (TWh)",
-  data: data, //reference the data array that was set above
-  }],
- tooltip: {
-   valueSuffix: ''
- },
- legend: {
-  enabled: true,
-  align: 'right',
-  verticalAlign: 'middle',
-  layout: 'vertical',
-  itemMarginTop: -100,
-  itemMarginBottom: 8
- },
- exporting: {
-   sourceWidth: 800,
-   sourceHeight: 500,
-   menuItemDefinitions: {
-  // Custom definition
-  xls: {
-    onclick: function() {
-  window.open('https://www.epa.gov/system/files/documents/2025-01/figure-2-eia-generation-data.xlsx');
+  Highcharts.chart(containerId, {
+    //Credits is the reference / source at the bottom right of the chart
+    credits: {
+      text: "Source: EIA Annual Energy Review",
+      href: "https://www.eia.gov/totalenergy/data/annual/index.php",
     },
-    text: 'Download data'
-  }
-   },
-   buttons: {
-  contextButton: {
-    menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-  }
-            }
-        }
-    });
+    chart: {
+      animation: false,
+      marginBottom: 10,
+      marginBottom: 50,
+      xAxisLabelAlignment: true, //Align first label left and last label right
+    },
+    title: {
+      text: title,
+      margin: 30,
+      align: "left", //Align title left.
+    },
+    plotOptions: {
+      label: {
+        onArea: false,
+      },
+      series: {
+        animation: false,
+      },
+    },
+    yAxis: {
+      tickInterval: 0.5,
+      min: 2.5,
+      max: 4.5,
+      title: {
+        text: yAxisTitle,
+        style: { fontWeight: "bold" },
+        textAlign: "left",
+        align: "high",
+        offset: -170,
+        x: -200,
+        rotation: 0,
+        y: -20,
+      },
+      labels: {
+        formatter: function () {
+          return this.value
+        },
+      },
+      gridLineDashStyle: "dash",
+      gridLineColor: "#c9c9c9",
+      minorGridLineWidth: 0,
+      plotLines: [
+        {
+          value: 2.5,
+          width: 1,
+          color: "#2e2e2e", //set solid black line at the base of the y axis
+          zIndex: 2,
+        },
+      ],
+    },
+    xAxis: {
+      min: 0.5,
+      max: 32.5,
+      categories: powerGenYears,
+      //Add one to last tickPositions array item each year
+      tickPositions: [0, 5, 10, 15, 20, 25, 30, 33],
+      tickLength: 5,
+      tickWidth: 1,
+      tickColor: "#2e2e2e",
+      tickmarkPlacement: "on",
+      labels: {
+        rotation: 0,
+        step: 1,
+        formatter() {
+          //every 5 years - add 2025 in 2026
+          if (
+            this.value == 1990 ||
+            this.value == 1995 ||
+            this.value == 2000 ||
+            this.value == 2005 ||
+            this.value == 2010 ||
+            this.value == 2015 ||
+            this.value == 2020 ||
+            this.value == currentGenYear
+          ) {
+            return this.value
+          }
+        },
+      },
+    },
+    series: [
+      {
+        type: "line",
+        color: lineColor,
+        lineWidth: 3,
+        name: "Generation (TWh)",
+        data: data, //reference the data array that was set above
+      },
+    ],
+    tooltip: {
+      valueSuffix: "",
+    },
+    legend: {
+      enabled: true,
+      align: "right",
+      verticalAlign: "middle",
+      layout: "vertical",
+      itemMarginTop: -100,
+      itemMarginBottom: 8,
+    },
+    exporting: {
+      sourceWidth: 800,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function () {
+            window.open(
+              "https://www.epa.gov/system/files/documents/2025-01/figure-2-eia-generation-data.xlsx",
+            )
+          },
+          text: "Download data",
+        },
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ["xls", "downloadPNG", "downloadJPEG", "downloadSVG"],
+        },
+      },
+    },
+  })
 }
 
 // Create the line chart, using the parameters set at the start of this section
@@ -427,120 +436,127 @@ const multiLineChartData = [
 
 //Define multi-line chart highchart template here
 function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
-    Highcharts.chart(containerId, {
-        credits: {
-        text: 'Source: EIA Annual Energy Review & EPA Power Sector Emissions Data',
-        href: 'https://www.eia.gov/totalenergy/data/annual/index.php',
+  Highcharts.chart(containerId, {
+    credits: {
+      text: "Source: EIA Annual Energy Review & EPA Power Sector Emissions Data",
+      href: "https://www.eia.gov/totalenergy/data/annual/index.php",
+    },
+    chart: {
+      animation: false,
+      spacingLeft: 0,
+      xAxisLabelAlignment: true,
+    },
+    title: {
+      text: title,
+      margin: 40,
+      align: "left",
+    },
+    plotOptions: {
+      label: {
+        onArea: false,
+      },
+      series: {
+        animation: false,
+      },
+    },
+    yAxis: {
+      title: {
+        text: yAxisTitle,
+        style: { fontWeight: "bold" },
+        align: "high",
+        offset: -100,
+        x: -30,
+        rotation: 0,
+        y: -20,
+      },
+      min: -100,
+      labels: {
+        formatter: function () {
+          return this.value + "%"
         },
-        chart: {
-            animation: false,
-            spacingLeft: 0,
-            xAxisLabelAlignment: true,
+      },
+      gridLineDashStyle: "dash",
+      gridLineColor: "#c9c9c9",
+      minorGridLineWidth: 0,
+      plotLines: [
+        {
+          value: 0,
+          width: 1,
+          color: "#c9c9c9",
+          zIndex: 3,
         },
-        title: {
-            text: title,
-            margin: 40,
-            align: 'left',
+        {
+          value: -100,
+          width: 1,
+          color: "#2e2e2e",
+          zIndex: 2,
         },
-        plotOptions: {
-            label: {
-                onArea: false
-            },
-            series: {
-                animation: false,
-            }
+      ],
+    },
+    xAxis: {
+      min: 0.5,
+      max: 27.5,
+      categories: years,
+      tickPositions: [0, 5, 10, 15, 20, 25, 28],
+      tickLength: 5,
+      tickWidth: 1,
+      tickColor: "#2e2e2e",
+      tickmarkPlacement: "on",
+      labels: {
+        rotation: 0,
+        step: 1,
+        formatter() {
+          if (
+            this.value == 1990 ||
+            this.value == 1995 ||
+            this.value == 2000 ||
+            this.value == 2005 ||
+            this.value == 2010 ||
+            this.value == 2015 ||
+            this.value == 2020 ||
+            this.value == reportYear
+          ) {
+            return this.value
+          }
         },
-        yAxis: {
-            title: {
-                text: yAxisTitle,
-                style: { fontWeight: 'bold' },
-                align: 'high',
-                offset: -100,
-                x: -30,
-                rotation: 0,
-                y: -20,
-            },
-            min: -100,
-            labels: {
-                formatter: function() {
-                    return this.value + "%";
-                }
-              },
-            gridLineDashStyle: 'dash',
-            gridLineColor: '#c9c9c9',
-            minorGridLineWidth: 0,
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#c9c9c9',
-                zIndex: 3
-            },
-            {
-                value: -100,
-                width: 1,
-                color: '#2e2e2e',
-                zIndex: 2
-            }],
-        },
-        xAxis: {
-            min: 0.5,
-            max: 27.5,
-            categories: years,
-            tickPositions: [0, 5, 10, 15, 20, 25, 28],
-            tickLength: 5,
-            tickWidth: 1,
-            tickColor: '#2e2e2e',
-            tickmarkPlacement: 'on',
-            labels: {
-                rotation: 0,
-                step: 1,
-                formatter() {
-                    if (this.value == 1990 ||
-                        this.value == 1995 ||
-                        this.value == 2000 ||
-                        this.value == 2005 ||
-                        this.value == 2010 ||
-                        this.value == 2015 ||
-                        this.value == 2020 ||
-                        this.value == reportYear) {
-                        return this.value;
-                    }
-                }
-            }
-        },
-        series: series,
-        tooltip: {
-          headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
-        shared: true,
-        valueSuffix: '%',
-        shape: "line",
-      pointFormat: '<span style="color:{series.color}"><b>━</b></span> {series.name}: <b>{point.y}</b><br/>'
-       },
-        legend: {
-            align: 'right',
-            verticalAlign: 'middle',
-            layout: 'proximate',
-            itemMarginTop: 8,
-            itemMarginBottom: 8
-        },
-        exporting: {
-            sourceWidth: 900,
-            sourceHeight: 500,
-            menuItemDefinitions: {
-                xls: {
-                    onclick: function() {
-                      window.open('https://www.epa.gov/system/files/documents/2025-01/figure-1-emissions-and-generation-data.xlsx');
+      },
+    },
+    series: series,
+    tooltip: {
+      headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
+      shared: true,
+      valueSuffix: "%",
+      shape: "line",
+      pointFormat:
+        '<span style="color:{series.color}"><b>━</b></span> {series.name}: <b>{point.y}</b><br/>',
+    },
+    legend: {
+      align: "right",
+      verticalAlign: "middle",
+      layout: "proximate",
+      itemMarginTop: 8,
+      itemMarginBottom: 8,
+    },
+    exporting: {
+      sourceWidth: 900,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        xls: {
+          onclick: function () {
+            window.open(
+              "https://www.epa.gov/system/files/documents/2025-01/figure-1-emissions-and-generation-data.xlsx",
+            )
           },
-          text: 'Download data'
-        }
+          text: "Download data",
+        },
       },
       buttons: {
         contextButton: {
-          menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-        }
-            }
+          menuItems: ["xls", "downloadPNG", "downloadJPEG", "downloadSVG"],
         },
-    });
+      },
+    },
+  })
 }
 
 // Create the multi-line chart, using the parameters set at the start of this section
@@ -566,128 +582,132 @@ const coalCapacityFactorData = [73, 73, 74, 72, 64, 67, 62, 56, 60, 60, 55, 53, 
 const barColor = '#5C5C5C';
 
 // Function to create a bar chart
-function createBarChart(containerId, title, yAxisTitle, categories, data, color) {
-    Highcharts.chart(containerId, {
-  //Credits is the reference / source at the bottom right of the chart
-  credits: {
- text: "Source: EIA Electric Power Annual",
- href: "https://www.eia.gov/electricity/annual/",
-  },
- chart: {
-   type: 'column',
-   animation: false, //can turn animation on or off (true or false). Sometimes delays load when there are many charts on a page.
-   marginBottom: 50,
- },
- title: {
-   text: "Operating Coal Sources Have Transitioned From Baseload to Intermediate Power Providers",
-   margin: 30,
-   align: 'left', //align title left
- },
- plotOptions: {
-   label: {
-  onArea: false
-   },
-   column:{
-   pointWidth: 20, //This sets the width of the columns on the chart
-   },
-   series: {
-  animation: false,
-   }
- },
- yAxis: {
-   tickInterval: 10,
-   min: 0,
-   max: 80,
-   title: {
-   text: yAxisTitle,
-   style:{fontWeight: 'bold'},
-   textAlign: 'left',
-   align: 'high',
-   offset: -170,
-   x: -200,
-   rotation: 0,
-   y: -20,
-  },
-   labels: {
-  formatter: 
-  function() {
-    return this.value + "%";
-  }
-   },
-   gridLineDashStyle: 'dash',
-   gridLineColor: '#c9c9c9',
-   minorGridLineWidth: 0,
-   plotLines: [{
-  value: 0,
-  width: 1,
-  color: '#2e2e2e', //set solid black line at 0 on the y axis
-  zIndex: 2
-   }],
- },
- xAxis: {
- min: 0,
- max: 18,
- categories: categories,
-//Add one to last tickPositions array item each year
-//18 is set as the last tick for 2023
-tickPositions: [0, 5, 10, 15, 18],
-tickLength: 5,
-tickWidth: 1,
-tickColor: '#2e2e2e',
-tickmarkPlacement: 'on',
-labels: {
-   rotation: 0,
-   step: 1,
-  formatter() {
-//every 5 years - add 2025 in 2026
-  if(this.value % 5 === 0 ||
-     this.value === currentGenYear) {
-   return this.value
-  }
- }
- }
- },
- series: [{
-  name: "Coal Capacity Factor",
-  data: data,
-  color: color,
- }],
- tooltip: {
-		headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
-   shared: true,
-   valueSuffix: '%',
-   shape: "rect",
-   pointFormat: '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>'
- },
- legend: {
-  enabled: false,
-	symbolRadius: 0,
-  align: 'right',
-  verticalAlign: 'middle',
-  layout: 'proximate',
-  itemMarginBottom: 8
- },
- exporting: {
-   sourceHeight: 500,
-   sourceWidth: 800,
-   menuItemDefinitions: {
-  // Custom definition
-  xls: {
-    onclick: function() {
-   window.open('https://www.epa.gov/system/files/documents/2025-01/figure-5-operating-coal-sources.xlsx');
+function createBarChart(  containerId,  title,  yAxisTitle,  categories,  data,  color,) {
+  Highcharts.chart(containerId, {
+    //Credits is the reference / source at the bottom right of the chart
+    credits: {
+      text: "Source: EIA Electric Power Annual",
+      href: "https://www.eia.gov/electricity/annual/",
     },
-    text: 'Download data'
-  }
-   },
-   buttons: {
-  contextButton: {
-    menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-  }
-   }
- }
-});
-};
-
+    chart: {
+      type: "column",
+      animation: false, //can turn animation on or off (true or false). Sometimes delays load when there are many charts on a page.
+      marginBottom: 50,
+    },
+    title: {
+      text: "Operating Coal Sources Have Transitioned From Baseload to Intermediate Power Providers",
+      margin: 30,
+      align: "left", //align title left
+    },
+    plotOptions: {
+      label: {
+        onArea: false,
+      },
+      column: {
+        pointWidth: 20, //This sets the width of the columns on the chart
+      },
+      series: {
+        animation: false,
+      },
+    },
+    yAxis: {
+      tickInterval: 10,
+      min: 0,
+      max: 80,
+      title: {
+        text: yAxisTitle,
+        style: { fontWeight: "bold" },
+        textAlign: "left",
+        align: "high",
+        offset: -170,
+        x: -200,
+        rotation: 0,
+        y: -20,
+      },
+      labels: {
+        formatter: function () {
+          return this.value + "%"
+        },
+      },
+      gridLineDashStyle: "dash",
+      gridLineColor: "#c9c9c9",
+      minorGridLineWidth: 0,
+      plotLines: [
+        {
+          value: 0,
+          width: 1,
+          color: "#2e2e2e", //set solid black line at 0 on the y axis
+          zIndex: 2,
+        },
+      ],
+    },
+    xAxis: {
+      min: 0,
+      max: 18,
+      categories: categories,
+      //Add one to last tickPositions array item each year
+      //18 is set as the last tick for 2023
+      tickPositions: [0, 5, 10, 15, 18],
+      tickLength: 5,
+      tickWidth: 1,
+      tickColor: "#2e2e2e",
+      tickmarkPlacement: "on",
+      labels: {
+        rotation: 0,
+        step: 1,
+        formatter() {
+          //every 5 years - add 2025 in 2026
+          if (this.value % 5 === 0 || this.value === currentGenYear) {
+            return this.value
+          }
+        },
+      },
+    },
+    series: [
+      {
+        name: "Coal Capacity Factor",
+        data: data,
+        color: color,
+      },
+    ],
+    tooltip: {
+      headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
+      shared: true,
+      valueSuffix: "%",
+      shape: "rect",
+      pointFormat:
+        '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>',
+    },
+    legend: {
+      enabled: false,
+      symbolRadius: 0,
+      align: "right",
+      verticalAlign: "middle",
+      layout: "proximate",
+      itemMarginBottom: 8,
+    },
+    exporting: {
+      sourceHeight: 500,
+      sourceWidth: 800,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function () {
+            window.open(
+              "https://www.epa.gov/system/files/documents/2025-01/figure-5-operating-coal-sources.xlsx",
+            )
+          },
+          text: "Download data",
+        },
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ["xls", "downloadPNG", "downloadJPEG", "downloadSVG"],
+        },
+      },
+    },
+  })
+}
  createBarChart('barChartTemplate', barTitle, barChartYAxisTitle, coalCapacityFactorYears, coalCapacityFactorData, barColor);
 
 //end highcharts bar chart template code
@@ -714,142 +734,152 @@ const renewableData = {
 
 // Function to create a stacked bar chart
 function createStackedBarChart(containerId, title, yAxisTitle, years, data) {
-    Highcharts.chart(containerId, {
-        // Credits is the source shown in the bottom right of the chart  
-        credits: {
-            text: "Source: EIA Electric Power Annual",
-            href: "https://www.eia.gov/electricity/annual/",
+  Highcharts.chart(containerId, {
+    // Credits is the source shown in the bottom right of the chart
+    credits: {
+      text: "Source: EIA Electric Power Annual",
+      href: "https://www.eia.gov/electricity/annual/",
+    },
+    chart: {
+      type: "column",
+      animation: false,
+    },
+    title: {
+      text: title,
+      margin: 30,
+      align: "left", // Align the title to the left
+    },
+    caption: {
+      text: "<br />Capacity = net summer capacity",
+      y: 0,
+      style: {
+        fontSize: "8px",
+      },
+    },
+    plotOptions: {
+      label: {
+        onArea: false,
+      },
+      column: {
+        pointWidth: 18,
+        stacking: "normal",
+      },
+      series: {
+        animation: false,
+      },
+    },
+    yAxis: {
+      reversedStacks: false,
+      tickInterval: 10,
+      min: 0,
+      max: 30,
+      title: {
+        text: yAxisTitle,
+        style: { fontWeight: "bold" },
+        textAlign: "left",
+        align: "high",
+        offset: -190,
+        x: -200,
+        rotation: 0,
+        y: -25,
+      },
+      labels: {
+        formatter: function () {
+          return this.value
         },
-        chart: {
-            type: 'column',
-            animation: false,
+      },
+      gridLineDashStyle: "dash",
+      gridLineColor: "#c9c9c9",
+      minorGridLineWidth: 0,
+      plotLines: [
+        {
+          value: 0,
+          width: 1,
+          color: "#2e2e2e", // set solid black line at the base of the y axis
+          zIndex: 2,
         },
-        title: {
-            text: title,
-            margin: 30,
-            align: 'left', // Align the title to the left
+      ],
+    },
+    xAxis: {
+      min: 0,
+      max: 23,
+      categories: years,
+      // Add one to last tickPositions array item each year
+      // Setting 23 as the last tick for 2023
+      tickPositions: [0, 5, 10, 15, 20, 23],
+      tickLength: 5,
+      tickWidth: 1,
+      tickColor: "#2e2e2e",
+      tickmarkPlacement: "on",
+      labels: {
+        rotation: 0,
+        step: 1,
+        formatter() {
+          // every 5 years - add 2025 in 2026
+          if (this.value % 5 === 0 || this.value === currentRenewableYear) {
+            return this.value
+          }
         },
-        caption: {
-            text: "<br />Capacity = net summer capacity",
-            y: 0,
-            style: {
-                fontSize: '8px'
-            },
+      },
+    },
+    series: [
+      {
+        name: "Other",
+        data: data.other,
+        color: "#C9C9C9",
+      },
+      {
+        name: "Hydro",
+        data: data.hydro,
+        color: "#2378C3",
+      },
+      {
+        name: "Solar",
+        data: data.solar,
+        color: "#8A984B",
+      },
+      {
+        name: "Wind",
+        data: data.wind,
+        color: "#168092",
+      },
+    ],
+    tooltip: {
+      shared: true,
+      headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
+      valueSuffix: " GW",
+      shape: "rect",
+      pointFormat:
+        '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>',
+    },
+    legend: {
+      enabled: true,
+      reversed: true,
+      symbolRadius: 0,
+      align: "center",
+      verticalAlign: "bottom",
+    },
+    exporting: {
+      sourceWidth: 1050,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function () {
+            window.open(
+              "https://www.epa.gov/system/files/documents/2025-01/figure-9-renewable-capacity-added.xlsx",
+            )
+          },
+          text: "Download data",
         },
-        plotOptions: {
-            label: {
-                onArea: false
-            },
-            column: {
-                pointWidth: 18,
-                stacking: 'normal'
-            },
-            series: {
-                animation: false,
-            }
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ["xls", "downloadPNG", "downloadJPEG", "downloadSVG"],
         },
-        yAxis: {
-            reversedStacks: false,
-            tickInterval: 10,
-            min: 0,
-            max: 30,
-            title: {
-                text: yAxisTitle,
-                style: { fontWeight: 'bold' },
-                textAlign: 'left',
-                align: 'high',
-                offset: -190,
-                x: -200,
-                rotation: 0,
-                y: -25,
-            },
-            labels: {
-                formatter: function() {
-                    return this.value;
-                }
-            },
-            gridLineDashStyle: 'dash',
-            gridLineColor: '#c9c9c9',
-            minorGridLineWidth: 0,
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#2e2e2e',   // set solid black line at the base of the y axis
-                zIndex: 2
-            }],
-        },
-        xAxis: {
-            min: 0,
-            max: 23,
-            categories: years,
-            // Add one to last tickPositions array item each year
-            // Setting 23 as the last tick for 2023
-            tickPositions: [0, 5, 10, 15, 20, 23],
-            tickLength: 5,
-            tickWidth: 1,
-            tickColor: '#2e2e2e',
-            tickmarkPlacement: 'on',
-            labels: {
-                rotation: 0,
-                step: 1,
-                formatter() {
-                    // every 5 years - add 2025 in 2026
-                    if (this.value % 5 === 0 || this.value === currentRenewableYear) {
-                        return this.value;
-                    }
-                }
-            }
-        },
-        series: [{
-            name: "Other",
-            data: data.other,
-            color: '#C9C9C9'
-        }, {
-            name: "Hydro",
-            data: data.hydro,
-            color: '#2378C3'
-        }, {
-            name: "Solar",
-            data: data.solar,
-            color: '#8A984B'
-        }, {
-            name: "Wind",
-            data: data.wind,
-            color: '#168092'
-        }],
-        tooltip: {
-            shared: true,
-            headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
-            valueSuffix: ' GW',
-            shape: "rect",
-            pointFormat: '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>'
-        },
-        legend: {
-            enabled: true,
-            reversed: true,
-            symbolRadius: 0,
-            align: 'center',
-            verticalAlign: 'bottom',
-        },
-        exporting: {
-            sourceWidth: 1050,
-            sourceHeight: 500,
-            menuItemDefinitions: {
-                // Custom definition
-                xls: {
-                    onclick: function() {
-                        window.open('https://www.epa.gov/system/files/documents/2025-01/figure-9-renewable-capacity-added.xlsx');
-                    },
-                    text: 'Download data'
-                }
-            },
-            buttons: {
-                contextButton: {
-                    menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-                }
-            }
-        }
-    });
+      },
+    },
+  })
 }
 
 // Call the function to create the stacked bar chart
@@ -918,120 +948,125 @@ data: [ 753.9, 768.8, 780.1, 763.7, 788.5, 782.0, 787.2, 806.4, 806.2, 798.9, 80
 
 // Function to create a stacked area chart
 function createStackedAreaChart(containerId, title, yAxisTitle, years, data) {
-    Highcharts.chart(containerId, {
-        credits: {
-            text: "Source: EIA Annual Energy Review",
-            href: "https://www.eia.gov/totalenergy/data/annual/index.php",
+  Highcharts.chart(containerId, {
+    credits: {
+      text: "Source: EIA Annual Energy Review",
+      href: "https://www.eia.gov/totalenergy/data/annual/index.php",
+    },
+    chart: {
+      type: "area",
+      animation: false,
+      marginBottom: 50,
+      xAxisLabelAlignment: true, // Align first label left and last label right
+    },
+    title: {
+      text: title,
+      margin: 30,
+      align: "left", // Align title to the left
+    },
+    plotOptions: {
+      label: {
+        onArea: false,
+      },
+      area: {
+        marker: {
+          enabled: false,
         },
-        chart: {
-            type: 'area',
-            animation: false,
-            marginBottom: 50,
-            xAxisLabelAlignment: true, // Align first label left and last label right
+      },
+      series: {
+        animation: false,
+        stacking: "normal",
+      },
+    },
+    yAxis: {
+      tickInterval: 1000,
+      min: 0,
+      max: 5000,
+      title: {
+        text: yAxisTitle,
+        style: { fontWeight: "bold" },
+        textAlign: "left",
+        align: "high",
+        offset: -170,
+        x: -210,
+        rotation: 0,
+        y: -20,
+      },
+      labels: {
+        formatter: function () {
+          return this.value // Show labels on Y axis
         },
-        title: {
-            text: title,
-            margin: 30,
-            align: 'left', // Align title to the left
+      },
+      gridLineDashStyle: "dash",
+      gridLineColor: "#c9c9c9",
+      minorGridLineWidth: 0,
+      plotLines: [
+        {
+          value: 0,
+          width: 1,
+          color: "#2e2e2e", // set solid black line at the base of the y axis
+          zIndex: 2,
         },
-        plotOptions: {
-            label: {
-                onArea: false
-            },
-            area: {
-                marker: {
-                    enabled: false
-                },
-            },
-            series: {
-                animation: false,
-                stacking: 'normal'
-            }
+      ],
+    },
+    xAxis: {
+      min: 0.5,
+      max: 22.5,
+      categories: years,
+      // Add one to last tickPositions array item each year
+      // 23 is the last tick for 2023
+      tickPositions: [0, 5, 10, 15, 20, 23],
+      tickLength: 5,
+      tickWidth: 1,
+      tickColor: "#2e2e2e",
+      tickmarkPlacement: "on",
+      labels: {
+        rotation: 0,
+        step: 1,
+        formatter() {
+          // every 5 years - add 2025 in 2026
+          if (this.value % 5 === 0 || this.value == currentGenYear) {
+            return this.value
+          }
         },
-        yAxis: {
-            tickInterval: 1000,
-            min: 0,
-            max: 5000,
-            title: {
-                text: yAxisTitle,
-                style: { fontWeight: 'bold' },
-                textAlign: 'left',
-                align: 'high',
-                offset: -170,
-                x: -210,
-                rotation: 0,
-                y: -20,
-            },
-            labels: {
-                formatter: function() {
-                    return this.value; // Show labels on Y axis
-                }
-            },
-            gridLineDashStyle: 'dash',
-            gridLineColor: '#c9c9c9',
-            minorGridLineWidth: 0,
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#2e2e2e',   // set solid black line at the base of the y axis
-                zIndex: 2
-            }],
+      },
+    },
+    series: data,
+    tooltip: {
+      shared: true,
+      valueSuffix: " GWh",
+      shape: "rect",
+      pointFormat:
+        '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>',
+    },
+    legend: {
+      symbolRadius: 0,
+      align: "right",
+      verticalAlign: "middle",
+      layout: "proximate",
+      // itemMarginBottom: 8 // If you need more space around each legend item
+    },
+    exporting: {
+      sourceWidth: 800,
+      sourceHeight: 500,
+      menuItemDefinitions: {
+        // Custom definition
+        xls: {
+          onclick: function () {
+            window.open(
+              "https://epa.gov/system/files/documents/2025-01/figure-3-electricity-source-mix.xlsx",
+            )
+          },
+          text: "Download data",
         },
-        xAxis: {
-            min: 0.5,
-            max: 22.5,
-            categories: years,
-            // Add one to last tickPositions array item each year   
-            // 23 is the last tick for 2023
-            tickPositions: [0, 5, 10, 15, 20, 23],
-            tickLength: 5,
-            tickWidth: 1,
-            tickColor: '#2e2e2e',
-            tickmarkPlacement: 'on',
-            labels: {
-                rotation: 0,
-                step: 1,
-                formatter() {
-                    // every 5 years - add 2025 in 2026
-                    if (this.value % 5 === 0 || this.value == currentGenYear) {
-                        return this.value;
-                    }
-                }
-            }
+      },
+      buttons: {
+        contextButton: {
+          menuItems: ["xls", "downloadPNG", "downloadJPEG", "downloadSVG"],
         },
-        series: data,
-        tooltip: {
-            shared: true,
-            valueSuffix: ' GWh',
-            shape: "rect",
-            pointFormat: '<span style="color:{series.color}">◼</span> {series.name}: <b>{point.y}</b><br/>'
-        },
-        legend: {
-            symbolRadius: 0,
-            align: 'right',
-            verticalAlign: 'middle',
-            layout: 'proximate',
-            // itemMarginBottom: 8 // If you need more space around each legend item
-        },
-        exporting: {
-            sourceWidth: 800,
-            sourceHeight: 500,
-            menuItemDefinitions: {
-                // Custom definition
-                xls: {
-                    onclick: function() {
-                        window.open('https://epa.gov/system/files/documents/2025-01/figure-3-electricity-source-mix.xlsx');
-                    },
-                    text: 'Download data'
-                }
-            },
-            buttons: {
-                contextButton: {
-                    menuItems: ['xls', 'downloadPNG', 'downloadJPEG', 'downloadSVG']
-                }
-            }
-        },
-    });
+      },
+    },
+  })
 }
 
 // Call the function to create the stacked area chart
