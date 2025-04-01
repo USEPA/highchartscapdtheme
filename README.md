@@ -7,6 +7,7 @@ This is a small piece of the larger [Power Sector Dev Portal](https://github.com
 The [highcharts_capd_theme_examples.html](https://github.com/USEPA/highchartscapdtheme/blob/main/highcharts_capd_theme_examples.html) file is an all-in-one template file for charts including the HTML, Javascript, and CSS necessary to run highcharts on Drupal or other public EPA web serers. The file contains template charts for:
 * Pie charts
 * Line charts
+* Multi-line charts
 * Bar charts
 * Stacked bar charts
 * Stacked area charts
