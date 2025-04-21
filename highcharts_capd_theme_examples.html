@@ -497,6 +497,8 @@ function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
       min: 0.5,
       max: 27.5,
       categories: years,
+//Add one to last tickPositions array item each year
+//18 is set as the last tick for 2023
       tickPositions: [0, 5, 10, 15, 20, 25, 28],
       tickLength: 5,
       tickWidth: 1,
@@ -521,7 +523,7 @@ function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
         },
       },
     },
-    series: series,
+    series: series, //references the multiLineChartData array set above
     tooltip: {
       headerFormat: '<span style="font-size: 11px">{point.key}</span><br/>',
       shared: true,
