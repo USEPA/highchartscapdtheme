@@ -308,8 +308,10 @@ function createLineChart(containerId, title, yAxisTitle, data, color) {
       ],
     },
     xAxis: {
-      min: 0.5,
-      max: 32.5,
+      //this sets the range of the xAxis. We set it to 0.5 and 32.5
+      min: 0.5, //Setting the min as 0.5 helps to start the chart at exactly 1990 instead of 
+      max: 32.5, //2023 - 1990 = 33. Setting the max as 32.5 helps to end the graph at exactly 33 (2023) instead of adding a short line to the end, which is the default highcharts behavior
+      //add one to this numnber for each year you add.
       categories: powerGenYears,
       //Add one to last tickPositions array item each year
       tickPositions: [0, 5, 10, 15, 20, 25, 30, 33],
@@ -494,8 +496,9 @@ function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
       ],
     },
     xAxis: {
-      min: 0.5,
-      max: 27.5,
+      min: 0.5, //Setting the min as 0.5 helps to start the chart at exactly 1995 instead of adding a short line at the beginning of the chart (default highcharts behavior)
+      max: 27.5, //2023 - 1995 = 28. Setting the max as 27.5 helps to end the graph at exactly 28 (2023) instead of adding a short line to the end, which is the default highcharts behavior
+      //add one to this numnber for each year you add.
       categories: years,
 //Add one to last tickPositions array item each year
 //18 is set as the last tick for 2023
