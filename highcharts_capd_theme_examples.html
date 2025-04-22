@@ -200,7 +200,7 @@ function createPieChart(containerId, title, data, colors) {
     },
     colors: colors,
     exporting: {
-      filename: pieTitle,
+      filename: title,
       menuItemDefinitions: {
         dd: {
           onclick: function () {
@@ -361,7 +361,7 @@ function createLineChart(containerId, title, yAxisTitle, data, color) {
       itemMarginBottom: 8,
     },
     exporting: {
-      filename: lineTitle,
+      filename: title,
       sourceWidth: 800,
       sourceHeight: 500,
       menuItemDefinitions: {
@@ -545,7 +545,7 @@ function createMultiLineChart(containerId, title, yAxisTitle, years, series) {
       itemMarginBottom: 8,
     },
     exporting: {
-      filename: multiLineTitle,
+      filename: title,
       sourceWidth: 900,
       sourceHeight: 500,
       menuItemDefinitions: {
@@ -695,7 +695,7 @@ function createBarChart(  containerId,  title,  yAxisTitle,  categories,  data, 
       itemMarginBottom: 8,
     },
     exporting: {
-      filename: barTitle,
+      filename: title,
       sourceHeight: 500,
       sourceWidth: 800,
       menuItemDefinitions: {
@@ -869,7 +869,7 @@ function createStackedBarChart(containerId, title, yAxisTitle, years, data) {
       verticalAlign: "bottom",
     },
     exporting: {
-      filename: stackedBarTitle,
+      filename: title,
       sourceWidth: 1050,
       sourceHeight: 500,
       menuItemDefinitions: {
@@ -1057,7 +1057,7 @@ function createStackedAreaChart(containerId, title, yAxisTitle, years, data) {
       // itemMarginBottom: 8 // If you need more space around each legend item
     },
     exporting: {
-      filename: stackedAreaTitle,
+      filename: title,
       sourceWidth: 800,
       sourceHeight: 500,
       menuItemDefinitions: {
